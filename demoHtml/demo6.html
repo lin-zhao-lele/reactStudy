@@ -1,0 +1,92 @@
+<!-- 
+demo6 : 接近react
+组件包装
+-->
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- JSX -->
+    <div id='root'></div>
+    <script>
+        var root = document.getElementById("root")
+
+        // Component组件是 Button 和 Title 的父类，具备设置state的能力
+        class Component {
+            setState(newState) {
+                this.state = {
+                    ...state,
+                    ...newState
+                }
+            }
+        }
+
+        // Button的state是一个布尔变量 like
+        class Button extends Component{
+            constructor() {
+                super()
+                this.state = {
+                    like: true
+                }
+            }
+
+
+
+            render() {
+                const state = this.state
+                return `
+             <button type="button" 
+             style = "color: ${state.like ? "red" : "black"}"
+             onclick  = "handleClick()"> 
+                ${state.like ? "已点赞" : "点赞"}</button>
+             `
+            }
+        }
+
+        //Title的state是一个字符串
+        class Title extends Component{
+            constructor() {
+                super()
+                this.state = {
+                    text: "this is a title"
+                }
+            }
+
+            render() {
+                return `<h1>${this.state.text} </h1>`
+            }
+        }
+
+        class Wrap {
+            constructor() { }
+
+            render() {
+                return `
+                
+                <p>接近react的组件包装，每个组件都有自己的rend函数：Title组件显示title “this is a title”  Button组件显示一个点赞按钮</p>
+                <p>Wrap类是一个容器，包含4个Title 和 一个 Button</p>
+                <p>Component组件是 Button 和 Title 的父类，具备设置state的能力</p>
+                <p> Title的state是一个字符串 </p>
+                ${new Title().render()}
+                ${new Title().render()}
+                ${new Title().render()}
+                ${new Title().render()}
+                <p> Button的state是一个布尔变量 like </p>
+                ${new Button().render()}
+                `
+            }
+        }
+
+        root.innerHTML = new Wrap().render()
+
+    </script>
+
+</body>
+
+</html>

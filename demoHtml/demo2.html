@@ -1,0 +1,48 @@
+<!-- demo1 : import state-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button" id="like"> 点赞</button>
+    <script>
+        var likeBtn = document.getElementById('like')
+        // 增加状态 state，用来取代 innerHTML
+        var state = {
+            like: false,
+            color: 'red'
+        }
+        // 修改状态  ...是对象解构
+        var setState = function (newState) {
+            state = {
+                ...state,
+                ...newState 
+            }
+            render()
+        }
+
+        // 渲染
+        var render = function () {
+            if (state.like) {
+                likeBtn.innerHTML = "已点赞"
+                likeBtn.style.color = 'red'
+            } else {
+                likeBtn.innerHTML = "点赞"
+                likeBtn.style.color = 'black'
+            }
+        }
+
+        likeBtn.addEventListener('click', function () {
+            setState({
+                like : !state.like
+            })
+        })
+    </script>
+
+</body>
+
+</html>

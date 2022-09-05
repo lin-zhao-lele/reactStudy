@@ -1,0 +1,76 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="input" placeholder="Search">
+    <p id='error' style="color:red"> 字数不能超过20</p>
+    <button id="clearError"> CleatError </button>
+
+    <script>
+        var input = document.getElementById('input')
+        var errorMsg = document.getElementById('error')
+
+        var clearError = document.getElementById('clearError')
+
+        // 状态
+        var state = {
+            value: "",
+            error: false
+        }
+
+        // 修改状态
+        var setState = function (newState) {
+            state = {
+                ...state,
+                ...newState
+            }
+            render()
+        }
+
+        // 渲染 这个render()函数只在 setState()函数里面有调用 所以最初load的时候会显示error标签 
+        // fix的方法是在script代码里面主动调用一次render()
+        var render = function () {
+            input.value = state.value
+            if (state.error) {
+                errorMsg.style.display = 'block'
+            } else {
+                errorMsg.style.display = 'none'
+            }
+        }
+
+        var handleInput = function (value) {
+            if (value.length < 20) {
+                setState({
+                    value: value,
+                    error: false
+                })
+            } else {
+                setState({
+                    error: true
+                })
+            }
+        }
+
+        input.addEventListener('input', function () {
+            handleInput(this.value)
+        })
+
+        clearError.addEventListener('click', function () {
+            setState({
+                value: "",
+                error: false
+            })
+        })
+
+        // 最初的渲染 不会显示error信息
+        render()
+    </script>
+
+</body>
+
+</html>
